@@ -96,29 +96,29 @@ class QuizBandeirasApp(App):
         }
 
 
-        self.image_dir = "bandeiras/"  # Caminho das bandeiras
-        self.user_name = None  # Nome do usuário
-        self.score = 0  # Pontuação
-        self.current_question = 0  # Questão atual
-        self.max_questions = 20  # Total de perguntas no jogo
+        self.image_dir = "bandeiras/"  
+        self.user_name = None  
+        self.score = 0  
+        self.current_question = 0  
+        self.max_questions = 20  
 
-        # Layout principal
+    
         self.main_layout = BoxLayout(orientation="vertical", padding=20, spacing=10)
 
-        # Exibir nome
+  
         self.user_name_label = Label(text="Bem-vindo! Insira seu nome para começar.", font_size=20)
         self.main_layout.add_widget(self.user_name_label)
 
-        # Entrada de nome
+   
         self.user_name_input = TextInput(hint_text="Digite seu nome", multiline=False, size_hint=(1, None), height=40)
         self.main_layout.add_widget(self.user_name_input)
 
-        # Botão para salvar nome
+  
         self.save_name_button = Button(text="Salvar Nome", size_hint=(1, None), height=50)
         self.save_name_button.bind(on_release=self.save_name)
         self.main_layout.add_widget(self.save_name_button)
 
-        # Botão para iniciar o jogo
+ 
         self.start_game_button = Button(text="Jogar", size_hint=(1, None), height=50, disabled=True)
         self.start_game_button.bind(on_release=self.start_game)
         self.main_layout.add_widget(self.start_game_button)
@@ -146,7 +146,7 @@ class QuizBandeirasApp(App):
 
         self.current_question += 1
 
-        # Escolher bandeira e alternativas
+
         correct_country = random.choice(list(self.flags.keys()))
         correct_name = self.flags[correct_country]
         image_path = f"{self.image_dir}{correct_country}.png"
@@ -158,13 +158,12 @@ class QuizBandeirasApp(App):
                 options.append(option)
         random.shuffle(options)
 
-        # Limpar tela e mostrar bandeira
+
         self.main_layout.clear_widgets()
         self.main_layout.add_widget(Label(text=f"De que país é esta bandeira? {self.current_question}/{self.max_questions}", font_size=18))
         self.main_layout.add_widget(Image(source=image_path, size_hint=(1, 0.5), allow_stretch=True, keep_ratio=True))
 
 
-        # Mostrar opções
         for option in options:
             button = Button(text=option, size_hint=(1, None), height=50)
             button.bind(on_release=lambda instance, answer=option: self.check_answer(answer, correct_name))
