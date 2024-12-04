@@ -101,6 +101,7 @@ class QuizBandeirasApp(App):
         self.score = 0  
         self.current_question = 0  
         self.max_questions = 20  
+        self.leaderboard = []
 
     
         self.main_layout = BoxLayout(orientation="vertical", padding=20, spacing=10)
@@ -175,8 +176,17 @@ class QuizBandeirasApp(App):
         self.show_question()
 
     def show_final_score(self):
+
+        if self.user_name and self.score is not None:
+            self.leaderboard.append((self.user_name, self.score))
+        self.leaderboard = sorted(self.leaderboard, key=lambda x: x[1], reverse=True)
+
         self.main_layout.clear_widgets()
         self.main_layout.add_widget(Label(text=f"{self.user_name}, sua pontuação final foi: {self.score}/{self.max_questions}", font_size=24))
+        self.main_layout.add_widget(Label(text="Leaderboard:", font_size=20))
+        for i, (name, score) in enumerate(self.leaderboard, 1):
+            self.main_layout.add_widget(Label(text=f"{i}. {name}: {score} pontos", font_size=18))
+
         restart_button = Button(text="Jogar Novamente", size_hint=(1, None), height=50)
         restart_button.bind(on_release=self.start_game)
         self.main_layout.add_widget(restart_button)
